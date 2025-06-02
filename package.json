@@ -1,0 +1,164 @@
+{
+  "name": "@rnwonder/react-date-picker",
+  "version": "0.0.85",
+  "description": "A responsive, highly-customizable datepicker component for ReactJS.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "repository": "https://github.com/rnwonder/solid-date-picker",
+  "bugs": "https://github.com/rnwonder/solid-date-picker/issues",
+  "homepage": "https://soliddatepicker.netlify.app",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./dist/index.js"
+    },
+    "./dateMath": {
+      "default": "./dist/dateMath.js"
+    },
+    "./utilities": {
+      "default": "./dist/utilities.js"
+    },
+    "./timePicker": {
+      "default": "./dist/timePicker.js"
+    },
+    "./monthSelector": {
+      "default": "./dist/monthSelector.js"
+    },
+    "./calendarArea": {
+      "default": "./dist/calendarArea.js"
+    },
+    "./popover": {
+      "default": "./dist/popover.js"
+    },
+    "./yearSelector": {
+      "default": "./dist/yearSelector.js"
+    },
+    "./calendar": {
+      "default": "./dist/calendar.js"
+    },
+    "./dist/style.css": "./dist/style.css",
+    "./themes/ark-ui": {
+      "default": "./themes/ark-ui.css"
+    },
+    "./themes/shad-cn-ui": {
+      "default": "./themes/shad-cn-ui.css"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "index": [
+        "./dist/index.d.ts"
+      ],
+      "dateMath": [
+        "./dist/dateMath.d.ts"
+      ],
+      "utilities": [
+        "./dist/utilities.d.ts"
+      ],
+      "timePicker": [
+        "./dist/timePicker.d.ts"
+      ],
+      "monthSelector": [
+        "./dist/monthSelector.d.ts"
+      ],
+      "calendarArea": [
+        "./dist/calendarArea.d.ts"
+      ],
+      "popover": [
+        "./dist/popover.d.ts"
+      ],
+      "yearSelector": [
+        "./dist/yearSelector.d.ts"
+      ],
+      "calendar": [
+        "./dist/calendar.d.ts"
+      ]
+    }
+  },
+  "author": "rnwonder",
+  "scripts": {
+    "dev": "vite",
+    "types": "tsc",
+    "build": "pnpm run clean && vite build --mode lib && cp -R ./style.css ./dist/",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "clean": "IF EXIST \"types\" ( rmdir /s /q \"types\" )"
+  },
+  "private": false,
+  "files": [
+    "dist/**",
+    "types/**",
+    "themes/**",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "dependencies": {
+    "@radix-ui/react-popover": "^1.1.6",
+    "@rnwonder/simple-datejs": "^1.0.8",
+    "@tailwindcss/vite": "^4.0.6",
+    "class-variance-authority": "^0.7.1",
+    "lucide-react": "^0.475.0",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@types/node": "^22.13.2",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.24.0",
+    "@typescript-eslint/parser": "^8.24.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "clsx": "^2.1.1",
+    "daisyui": "^4.12.23",
+    "eslint": "^9.20.1",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "postcss": "^8.5.2",
+    "prettier": "^3.5.0",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "sass": "^1.84.0",
+    "tailwind-merge": "^3.0.1",
+    "tailwindcss": "^3",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0",
+    "vite-plugin-dts": "^4.5.0"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "date-picker",
+    "date",
+    "calendar",
+    "calendar-picker",
+    "react-date-picker",
+    "reactjs-date-picker",
+    "reactjs-calendar-picker",
+    "reactjs-calendar",
+    "reactjs-date",
+    "reactjs-rangepicker",
+    "react-rangepicker",
+    "rangepicker",
+    "reactjs-range-picker",
+    "reactjs-range",
+    "reactjs-picker",
+    "react-range-picker",
+    "react-date-picker",
+    "multi-date-picker",
+    "reactjs-multi-date-picker",
+    "reactjs-multi-date",
+    "mulitple-date-picker",
+    "reactjs-multiple-date-picker",
+    "reactjs time picker",
+    "reactjs timepicker",
+    "reactjs time"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
