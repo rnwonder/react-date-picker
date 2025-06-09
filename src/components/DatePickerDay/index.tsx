@@ -8,7 +8,7 @@ import {
 } from "../../interface/general";
 import { cn } from "../../utils";
 import React, { useEffect, useRef, useState } from "react";
-import Show from "../Helpers/Show";
+import Show from "../Helpers/Show.tsx";
 
 interface DatePickerDayProps
   extends DatePickerDayClassNamesAndColors,

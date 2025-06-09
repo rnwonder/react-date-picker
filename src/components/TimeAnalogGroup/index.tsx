@@ -9,7 +9,7 @@ import { TimeAnalogBottom } from "../TimeAnalogBottom";
 import { cn } from "../../utils";
 import { convert12HourTo24Hour } from "@rnwonder/simple-datejs/utils";
 import React, { SetStateAction, useCallback, useEffect, useState } from "react";
-import Show from "../Helpers/Show";
+import Show from "../Helpers/Show.tsx";
 
 interface IRenderTimeJSXProps {
   view: TimeView;

@@ -3,7 +3,7 @@ import { MonthSelector } from "../MonthSelector";
 import { YearSelector } from "../YearSelector";
 import { cn } from "../../utils";
 import React, { useEffect, useRef } from "react";
-import Show from "../Helpers/Show";
+import Show from "../Helpers/Show.tsx";
 
 interface DatePickerMonthAndYearSelectorProps
   extends Omit<DatePickerTopProps, "handlePrevMonth" | "handleNextMonth"> {}

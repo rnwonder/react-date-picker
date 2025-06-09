@@ -1,5 +1,3 @@
-"use client";
-
 import {
   RnClassName,
   DatePickerOnChange,
@@ -17,7 +15,7 @@ import {
   convertDateObjectToDate,
   labelFormat,
 } from "@rnwonder/simple-datejs/utils";
-import Show from "../Helpers/Show";
+import Show from "../Helpers/Show.tsx";
 
 export interface DatePickerInputSJProps
   extends Omit<

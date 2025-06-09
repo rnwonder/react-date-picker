@@ -24,7 +24,7 @@ import {
   getRefactoredPrevDate,
   isNotPartOfEnabledDays,
 } from "@rnwonder/simple-datejs/datePicker";
-import Show from "../Helpers/Show";
+import Show from "../Helpers/Show.tsx";
 
 export interface DatePickerTopProps extends RnColor, RnClassName {
   handlePrevMonth: () => void;

@@ -68,12 +68,12 @@ export interface TimeInputJSXProps {
 }
 
 export type PickerInputJSX =
-  | React.ReactElement
-  | ((props: PickerInputJSXProps) => React.ReactElement);
+  | JSX.Element
+  | ((props: PickerInputJSXProps) => JSX.Element);
 
 export type TimeInputJSX =
-  | React.ReactElement
-  | ((props: TimeInputJSXProps) => React.ReactElement);
+  | JSX.Element
+  | ((props: TimeInputJSXProps) => JSX.Element);
 
 export interface PickerRenderJSXProps {
   month: number;
@@ -98,8 +98,8 @@ export type HandleDayClick = (
 ) => void;
 
 export type PickerRenderJSX =
-  | React.ReactElement
-  | ((props: PickerRenderJSXProps) => React.ReactElement);
+  | JSX.Element
+  | ((props: PickerRenderJSXProps) => JSX.Element);
 
 export type IMonthSelectorType = "short" | "long";
 

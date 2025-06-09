@@ -1,5 +1,3 @@
-"use client";
-
 import {
   TimeMeridiem,
   ITimePickerFormat,
@@ -15,7 +13,7 @@ import {
 } from "@rnwonder/simple-datejs/utils";
 import { cn } from "../../utils";
 import React, { SetStateAction, useCallback, useEffect, useState } from "react";
-import Show from "../Helpers/Show";
+import Show from "../Helpers/Show.tsx";
 
 export interface ITimePickerAnalog extends TimeClassName {
   close: () => void;

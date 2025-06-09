@@ -3,7 +3,7 @@ import { WeekDays } from "../WeekDays";
 import { RnClassName, Locale, WeekDaysType } from "../../interface/general";
 import { cn } from "../../utils";
 import React, { useEffect, useState } from "react";
-import Show from "../Helpers/Show";
+import Show from "../Helpers/Show.tsx";
 
 export interface CalendarAreaProps
   extends CalendarDaysProps,

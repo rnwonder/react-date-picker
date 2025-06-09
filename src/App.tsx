@@ -5,7 +5,7 @@ import { Popover } from "./components/Popover";
 // import { PickerValue } from "./interface/general.ts";
 // import { getToday } from "@rnwonder/simple-datejs/utils";
 import DatePickerGroup from "./components/DatePickerGroup";
-import { TimeAnalogGroup } from "./components/TimeAnalogGroup";
+// import { TimeAnalogGroup } from "./components/TimeAnalogGroup";
 import TimeAnalogPicker from "./components/TimeAnalogPicker";
 
 function App() {

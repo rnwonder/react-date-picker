@@ -3,7 +3,7 @@ import { SelectorOptionButton } from "../SelectorOptionButton";
 import { defaultSelectorProps, SelectorTwoProps } from "../SelectorTwo";
 import SelectorTwoYearOptions from "../SelectorTwoYearOptions";
 import { handleSelectorOptionClick } from "@rnwonder/simple-datejs/datePicker";
-import Show from "../Helpers/Show";
+import Show from "../Helpers/Show.tsx";
 
 function SelectorTwoArea(props: SelectorTwoProps) {
   const handleOptionClick = (index: number, value: string) => {

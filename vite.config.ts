@@ -2,40 +2,55 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 import dts from "vite-plugin-dts";
-import terser from "@rollup/plugin-terser";
+import { libInjectCss } from "vite-plugin-lib-inject-css";
+import { extname, relative } from "path";
+import { fileURLToPath } from "node:url";
+import { glob } from "glob";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
+    libInjectCss(),
     dts({
-      insertTypesEntry: true,
+      include: ["src"],
+      exclude: ["src/**/*.test.tsx", "src/**/*.stories.tsx"],
+      rollupTypes: true,
     }),
   ],
   build: {
     lib: {
-      entry: {
-        index: resolve(__dirname, "src/index.ts"),
-        dateMath: resolve(__dirname, "src/dateMath.ts"),
-        utilities: resolve(__dirname, "src/utilities.ts"),
-        timePicker: resolve(__dirname, "src/timePicker.ts"),
-        monthSelector: resolve(__dirname, "src/monthSelector.ts"),
-        popover: resolve(__dirname, "src/popover.ts"),
-        yearSelector: resolve(__dirname, "src/yearSelector.ts"),
-        calendar: resolve(__dirname, "src/calendar.ts"),
-        calendarArea: resolve(__dirname, "src/calendarArea.ts"),
-      },
-      formats: ["es"],
+      entry: resolve(__dirname, "src/index.ts"),
+      formats: ["es", "cjs"],
+      fileName: (format) => `index.${format}.js`,
     },
     rollupOptions: {
-      external: ["react", "react/jsx-runtime"],
-      plugins: [terser()],
+      external: ["react", "react/jsx-runtime", "react-dom"],
+      input: Object.fromEntries(
+        glob.sync("src/**/*.{ts,tsx}").map((file) => [
+          // The name of the entry point
+          // src/index.ts becomes index
+          // src/utils/foo.ts becomes utils/foo
+          relative("src", file.slice(0, file.length - extname(file).length)),
+          // The absolute path to the entry file
+          fileURLToPath(new URL(file, import.meta.url)),
+        ]),
+      ),
+      output: {
+        globals: {
+          react: "React",
+          "react-dom": "ReactDOM",
+        },
+        preserveModules: true,
+        preserveModulesRoot: "src",
+        entryFileNames: "[name].js",
+      },
     },
+    cssCodeSplit: true,
+    minify: "terser",
   },
   resolve: {
-    mainFields: ["module", "main"],
     alias: {
-      "@rnwonder/react-date-picker": resolve(__dirname, "src"),
+      "@": resolve(__dirname, "./src"),
     },
   },
 });

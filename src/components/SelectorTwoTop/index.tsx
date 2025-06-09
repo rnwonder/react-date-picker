@@ -3,7 +3,7 @@ import { Button } from "../Button";
 import { PrevIcon } from "../PrevIcon";
 import { NextIcon } from "../NextIcon";
 import { useEffect, useState } from "react";
-import Show from "../Helpers/Show";
+import Show from "../Helpers/Show.tsx";
 import { SelectorTwoProps } from "../SelectorTwo";
 
 interface SelectorTwoTopProps extends Partial<SelectorTwoProps> {

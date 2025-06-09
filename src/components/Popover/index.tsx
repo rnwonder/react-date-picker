@@ -4,7 +4,7 @@ import {
   ShadPopover,
   ShadPopoverContent,
   ShadPopoverTrigger,
-} from "../ui/popover";
+} from "../ui/popover.tsx";
 
 export type IPopOverSJContentPropType =
   | React.ReactNode

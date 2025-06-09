@@ -45,8 +45,8 @@ import {
 } from "@rnwonder/simple-datejs/utils";
 import useDatePickerRenderJSX, {
   UseDatePickerRenderData,
-} from "../../hooks/useDatePickerRenderJSX";
-import Show from "../Helpers/Show";
+} from "../../hooks/useDatePickerRenderJSX.tsx";
+import Show from "../Helpers/Show.tsx";
 
 export interface DatePickerProps
   extends RnColor,

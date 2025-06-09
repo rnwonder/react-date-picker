@@ -13,7 +13,7 @@ import {
 } from "@rnwonder/simple-datejs/datePicker";
 import { cn } from "../../utils";
 import React, { SetStateAction, useCallback, useState } from "react";
-import Show from "../Helpers/Show";
+import Show from "../Helpers/Show.tsx";
 
 interface ITimeAnalogPickerProps
   extends Omit<
