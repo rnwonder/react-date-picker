@@ -1,3 +1,4 @@
+"use client";
 import { YearSelector, YearSelectorProps } from "./YearSelector";
 import { Popover } from "./Popover";
 import { SelectorProps } from "./Selector";

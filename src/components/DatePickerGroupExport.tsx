@@ -1,3 +1,5 @@
+"use client";
+
 import DatePickerGroup, { DatePickerInputSJProps } from "./DatePickerGroup";
 
 const DatePicker = (props: DatePickerInputSJProps) => {

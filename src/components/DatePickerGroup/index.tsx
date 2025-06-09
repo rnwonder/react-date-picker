@@ -1,3 +1,6 @@
+"use client";
+
+import React, { useState, useCallback } from "react";
 import {
   RnClassName,
   DatePickerOnChange,
@@ -5,17 +8,15 @@ import {
   PickerInputJSX,
   PickerValue,
 } from "../../interface/general";
-import { DatePicker, DatePickerProps } from "../DatePicker";
-import { IPopOverPositionX, IPopOverPositionY, Popover } from "../Popover";
-import { cn } from "../../utils";
-import { SelectorProps } from "../Selector";
-import { defaultSelectorProps } from "../SelectorTwo";
-import React, { SetStateAction, useRef, useState } from "react";
 import {
   convertDateObjectToDate,
   labelFormat,
 } from "@rnwonder/simple-datejs/utils";
-import Show from "../Helpers/Show.tsx";
+import { DatePicker, DatePickerProps } from "../DatePicker";
+import { cn } from "../../utils";
+import { SelectorProps } from "../Selector";
+import { defaultSelectorProps } from "../SelectorTwo";
+import { Popover, IPopOverPositionX, IPopOverPositionY } from "../Popover";
 
 export interface DatePickerInputSJProps
   extends Omit<
@@ -34,7 +35,7 @@ export interface DatePickerInputSJProps
     Pick<RnClassName, "inputWrapperClass" | "inputClass"> {
   type?: DatePickerType;
   value?: PickerValue;
-  setValue?: React.Dispatch<SetStateAction<PickerValue>>;
+  setValue?: React.Dispatch<React.SetStateAction<PickerValue>>;
   onChange?: (data: DatePickerOnChange) => void;
   componentsToAllowOutsideClick?: Array<HTMLElement>;
   renderInput?: PickerInputJSX;
@@ -55,9 +56,14 @@ export interface DatePickerInputSJProps
   formatInputLabelRangeStart?: string;
   formatInputLabelRangeEnd?: string;
   yearSelectorCount?: number;
+
+  portalRef?: HTMLElement | undefined;
+  setPortalRef?: React.Dispatch<React.SetStateAction<HTMLElement | undefined>>;
+
+  portalContainer?: HTMLElement;
 }
 
-const DatePickerGroup = (props: DatePickerInputSJProps) => {
+export const DatePickerGroupNew: React.FC<DatePickerInputSJProps> = (props) => {
   const [value, setValue] = useState<PickerValue>({
     label: "",
     value: {},
@@ -65,11 +71,9 @@ const DatePickerGroup = (props: DatePickerInputSJProps) => {
   const [isShown, setIsShown] = useState(false);
   const [allowedComponents, setAllowedComponents] = useState<any[]>([]);
   const [showSelectorTwo, setShowSelectorTwo] = useState(false);
-  const [selectorTwoProps, setSelectorTwoProps] =
-    useState<SelectorProps>(defaultSelectorProps);
-  const pickerRef = useRef<HTMLDivElement>(null);
+  const [selectorTwoProps, setSelectorTwoProps] = useState<SelectorProps>(defaultSelectorProps);
 
-  const handleOnChange = (data: DatePickerOnChange) => {
+  const handleOnChange = useCallback((data: DatePickerOnChange) => {
     const pickerValue = props.value || value;
     const setPickerValue = props.setValue || setValue;
 
@@ -219,7 +223,7 @@ const DatePickerGroup = (props: DatePickerInputSJProps) => {
         label: inputLabelValue.join(props.multipleDatesSeparator || ", "),
       });
     }
-  };
+  }, [props, value]);
 
   const handleChildrenClick = () => {
     setIsShown(true);
@@ -244,16 +248,17 @@ const DatePickerGroup = (props: DatePickerInputSJProps) => {
       isShown={isShown}
       setIsShown={setIsShown}
       onClose={() => {
-        setAllowedComponents([]);
+        if (allowedComponents.length) {
+            setAllowedComponents([])
+        }
         setShowSelectorTwo(false);
         setSelectorTwoProps(defaultSelectorProps);
         props.onClose?.();
       }}
-      allowedComponents={allowedComponents}
       onOpen={() => {
         props.onOpen?.();
       }}
-      content={({ close }) => (
+      content={({ close }: { close: () => void }) => (
         <DatePicker
           {...props}
           type={props.type || "single"}
@@ -264,19 +269,20 @@ const DatePickerGroup = (props: DatePickerInputSJProps) => {
           minDate={props.minDate}
           setAllowedComponents={setAllowedComponents}
           close={close}
+          yearSelectorCount={props.yearSelectorCount || 20}
           setShowSelectorTwo={setShowSelectorTwo}
           showSelectorTwo={showSelectorTwo}
           setSelectorTwoProps={setSelectorTwoProps}
           selectorTwoProps={selectorTwoProps}
-          ref={pickerRef}
-          yearSelectorCount={props.yearSelectorCount || 20}
+          locale={props.locale || "en-US"}
         />
       )}
-      onClickOutside={(e, setShown) => {
+      portalContainer={props.portalContainer}
+      onClickOutside={(e?: Event, setShown?: React.Dispatch<React.SetStateAction<boolean>>) => {
         if (
           allowedComponents
             .concat(props.componentsToAllowOutsideClick || [])
-            ?.some((component) => component?.contains?.(e?.target))
+            ?.some((component: any) => component?.contains?.(e?.target))
         ) {
           return;
         }
@@ -295,9 +301,9 @@ const DatePickerGroup = (props: DatePickerInputSJProps) => {
         data-scope="date-picker"
         data-part="control"
       >
-        <Show when={!!inputJSX}>{inputJSX}</Show>
+        {inputJSX && inputJSX}
 
-        <Show when={!inputJSX}>
+        {!inputJSX && (
           <input
             readOnly
             type={"text"}
@@ -305,19 +311,21 @@ const DatePickerGroup = (props: DatePickerInputSJProps) => {
             data-part="input"
             aria-label={"date picker input"}
             placeholder={props.placeholder}
-            value={props.inputLabel || props.value?.label || value.label}
+            value={
+              props.inputLabel || props.value?.label || value.label
+            }
             data-type={"date-picker-input"}
-            {...{ ...props.inputProps }}
+            {...{ ...props.inputProps, className: undefined }}
             className={cn(
               `date-picker-input rn-w-full rn-px-1`,
               props.inputProps?.className,
               props.inputClass,
             )}
           />
-        </Show>
+        )}
       </div>
     </Popover>
   );
 };
 
-export default DatePickerGroup;
+export { DatePickerGroupNew as default };

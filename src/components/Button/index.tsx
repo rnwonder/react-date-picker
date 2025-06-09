@@ -9,16 +9,17 @@ interface ButtonProps extends React.ComponentProps<"button"> {
   tabIndex?: number;
 }
 
-export const Button: React.FC<ButtonProps> = ({
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
   setHeight,
   selected,
   noButtonAnimation,
   children,
   className,
   ...props
-}) => {
+}, ref) => {
   return (
     <button
+      ref={ref}
       {...props}
       className={cn(
         `
@@ -43,4 +44,4 @@ export const Button: React.FC<ButtonProps> = ({
       {children}
     </button>
   );
-};
+});

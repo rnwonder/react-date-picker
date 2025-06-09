@@ -56,7 +56,6 @@ export const CalendarArea: React.FC<CalendarAreaProps> = (props) => {
         role={"grid"}
         data-columns={7}
         aria-roledescription={"calendar month"}
-        //@ts-ignore
         tabIndex={-1}
       >
         {props.weekDaysJSX || (

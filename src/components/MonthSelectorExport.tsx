@@ -1,3 +1,5 @@
+"use client";
+
 import { MonthSelector, MonthSelectorProps } from "./MonthSelector";
 import { SelectorProps } from "./Selector";
 import SelectorTwo, { defaultSelectorProps } from "./SelectorTwo";

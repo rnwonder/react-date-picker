@@ -1,3 +1,5 @@
+"use client";
+
 import { Selector, SelectorProps } from "../Selector";
 import {
   YearRange,

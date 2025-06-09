@@ -54,7 +54,7 @@ export interface DatePickerProps
   type: DatePickerType;
   close?: () => void;
   handleOnChange: (data: DatePickerOnChange) => void;
-  onDisabledDayError?: () => void;
+  onDisabledDayError?: (data: DateObjectUnits) => void;
 
   minDate?: MakeOptionalRequired<DateObjectUnits>;
   maxDate?: MakeOptionalRequired<DateObjectUnits>;

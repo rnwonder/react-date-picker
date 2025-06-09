@@ -30,7 +30,7 @@ export interface CalendarDaysProps extends CalendarDaysClassNamesAndColors {
   customDaysClassName?: CustomDaysClassName[];
   multipleObject: DateObjectUnits[];
   shouldHighlightWeekends?: boolean;
-  onDisabledDayError?: () => void;
+  onDisabledDayError?: (data: DateObjectUnits) => void;
   hideOutSideDays?: boolean;
 
   nextMonth?: boolean;

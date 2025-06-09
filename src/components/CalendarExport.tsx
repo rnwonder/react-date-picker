@@ -1,3 +1,5 @@
+"use client";
+
 import { DatePicker, DatePickerProps } from "./DatePicker";
 import { DatePickerType } from "../interface/general";
 import { SelectorProps } from "./Selector";

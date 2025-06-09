@@ -7,9 +7,10 @@ import { Popover } from "./components/Popover";
 import DatePickerGroup from "./components/DatePickerGroup";
 // import { TimeAnalogGroup } from "./components/TimeAnalogGroup";
 import TimeAnalogPicker from "./components/TimeAnalogPicker";
+import { CustomPortal } from "./components/CustomPortal";
 
 function App() {
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
   const [isShown, setIsShown] = useState(true);
   // const [date, setDate] = useState<PickerValue>({
   //   label: "",
@@ -57,24 +58,59 @@ function App() {
           </div>
         )}
       />
-      <Button onClick={() => setIsShown(true)}>Click me</Button>
+      {/* <Button onClick={() => setIsShown(true)}>Click me</Button> */}
 
       <Popover content={<div>I am a pop pver</div>}>
         <Button>Hey hey</Button>
       </Popover>
 
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+        <button
+        className={"rn-w-[10rem] rn-bg-white"}
+        id={"portal"}
+        onClick={() => setIsShown(true)}
+        
+      >
+        Hey Click me
+      </button>
+      <CustomPortal
+        setIsShown={setIsShown}
+        isShown={isShown}
+        // reference={ref}
+        referenceId={"portal"}
+      >
+        <div>
+          <p>I am a portal</p>
+        </div>
+      </CustomPortal>
+
+      <Popover
+        content={
+          <div
+            className={"rn-start rn-flex rn-flex-col rn-gap-y-4 rn-px-4 rn-py-4"}
+          >
+            <button
+              className={"rn-rounded-md rn-p-1 rn-text-start hover:rn-bg-slate-200"}
+            >
+              Open
+            </button>
+            <button
+              className={"rn-rounded-md rn-p-1 rn-text-start hover:rn-bg-slate-200"}
+            >
+              Copy
+            </button>
+            <button
+              className={"rn-rounded-md rn-p-1 rn-text-start hover:rn-bg-slate-200"}
+            >
+              Download
+            </button>
+          </div>
+        }
+        contentClassName={"rn-bg-white  rn-shadow-md rn-rounded-md"}
+        className={"rn-w-40"}
+        useRefWidth
+      >
+        <button>Click to see a popover</button>
+      </Popover>
     </div>
   );
 }
