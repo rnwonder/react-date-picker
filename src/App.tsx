@@ -2,8 +2,8 @@ import { useState } from "react";
 import "./App.css";
 import { Button } from "./components/Button";
 import { Popover } from "./components/Popover";
-// import { PickerValue } from "./interface/general.ts";
-// import { getToday } from "@rnwonder/simple-datejs/utils";
+import { PickerValue } from "./interface/general.ts";
+import { getToday } from "@rnwonder/simple-datejs/utils";
 import DatePickerGroup from "./components/DatePickerGroup";
 // import { TimeAnalogGroup } from "./components/TimeAnalogGroup";
 import TimeAnalogPicker from "./components/TimeAnalogPicker";
@@ -12,16 +12,17 @@ import { CustomPortal } from "./components/CustomPortal";
 function App() {
   // const [count, setCount] = useState(0);
   const [isShown, setIsShown] = useState(true);
-  // const [date, setDate] = useState<PickerValue>({
-  //   label: "",
-  //   value: {
-  //     selectedDateObject: getToday(),
-  //   },
-  // });
+  const [date, setDate] = useState<PickerValue>({
+    label: "",
+    value: {
+      selectedDateObject: getToday(),
+    },
+  });
 
   return (
     <div className={"rn-flex rn-flex-col"}>
       <p>asasasas {isShown}</p>
+      <DatePickerGroup value={date} setValue={setDate} />
 
       <br />
       <br />

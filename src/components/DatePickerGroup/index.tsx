@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   RnClassName,
   DatePickerOnChange,
@@ -11,6 +11,7 @@ import {
 import {
   convertDateObjectToDate,
   labelFormat,
+  convertDateToDateObject,
 } from "@rnwonder/simple-datejs/utils";
 import { DatePicker, DatePickerProps } from "../DatePicker";
 import { cn } from "../../utils";
@@ -71,125 +72,18 @@ export const DatePickerGroupNew: React.FC<DatePickerInputSJProps> = (props) => {
   const [isShown, setIsShown] = useState(false);
   const [allowedComponents, setAllowedComponents] = useState<any[]>([]);
   const [showSelectorTwo, setShowSelectorTwo] = useState(false);
-  const [selectorTwoProps, setSelectorTwoProps] = useState<SelectorProps>(defaultSelectorProps);
+  const [selectorTwoProps, setSelectorTwoProps] =
+    useState<SelectorProps>(defaultSelectorProps);
+  const [hasMounted, setMounted] = useState(false);
 
-  const handleOnChange = useCallback((data: DatePickerOnChange) => {
-    const pickerValue = props.value || value;
-    const setPickerValue = props.setValue || setValue;
+  const handleOnChange = useCallback(
+    (data: DatePickerOnChange) => {
+      const pickerValue = props.value || value;
+      const setPickerValue = props.setValue || setValue;
 
-    if (data.type === "single") {
-      const dateTime = convertDateObjectToDate(data?.selectedDate || {});
-      const label = labelFormat({
-        date: dateTime,
-        option: props?.localeOptions || {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-        },
-        format: props.formatInputLabel,
-        locale: props.locale,
-      });
-      setPickerValue({
-        value: {
-          selected: dateTime?.toISOString() || "",
-          selectedDateObject: data?.selectedDate || {},
-        },
-        label,
-      });
-    }
-
-    if (data.type === "range") {
-      const startDateTime = data.startDate
-        ? convertDateObjectToDate(data.startDate)
-        : undefined;
-      const endDateTime = data.endDate
-        ? convertDateObjectToDate(data.endDate)
-        : undefined;
-
-      let label = "";
-      const startOptions: Intl.DateTimeFormatOptions = {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-        ...(props?.localeOptions || {}),
-        ...(props?.alwaysShowRangeStartYear ? {} : { year: undefined }),
-      };
-      const endOptions: Intl.DateTimeFormatOptions = props?.localeOptions || {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      };
-      let startDateFormatted = "";
-      let endDateFormatted = "";
-
-      if (startDateTime && endDateTime) {
-        if (startDateTime.getFullYear() === endDateTime.getFullYear()) {
-          if (props.alwaysShowRangeStartYear) return;
-          startOptions.year = undefined;
-        } else {
-          startOptions.year = "numeric";
-        }
-        startDateFormatted = labelFormat({
-          date: startDateTime,
-          option: startOptions,
-          format: props.formatInputLabelRangeStart,
-          locale: props.locale,
-        });
-        endDateFormatted = labelFormat({
-          date: endDateTime,
-          option: endOptions,
-          format: props.formatInputLabelRangeEnd,
-          locale: props.locale,
-        });
-      }
-
-      if (startDateTime && !endDateTime) {
-        startDateFormatted = labelFormat({
-          date: startDateTime,
-          option: startOptions,
-          format: props.formatInputLabelRangeStart,
-          locale: props.locale,
-        });
-      }
-
-      if (!startDateTime && endDateTime) {
-        endDateFormatted = labelFormat({
-          date: endDateTime,
-          option: endOptions,
-          format: props.formatInputLabelRangeEnd,
-          locale: props.locale,
-        });
-      }
-      label = `${startDateFormatted} ${
-        props.rangeDatesSeparator || "-"
-      } ${endDateFormatted}`;
-      setPickerValue({
-        value: {
-          start: startDateTime?.toISOString() || "",
-          startDateObject: data?.startDate || {},
-          end: endDateTime?.toISOString() || "",
-          endDateObject: data?.endDate || {},
-        },
-        label,
-      });
-    }
-
-    if (data.type === "multiple") {
-      const savedValue = pickerValue.value;
-      const savedMultipleDateObject = savedValue.multipleDateObject || [];
-      const newMultipleDateObject = data.multipleDates || [];
-
-      if (!pickerValue.label && newMultipleDateObject.length === 0) return;
-      if (
-        savedMultipleDateObject.toString() ===
-          newMultipleDateObject.toString() &&
-        pickerValue.label
-      )
-        return;
-
-      const inputLabelValue = newMultipleDateObject.map((date) => {
-        const dateTime = convertDateObjectToDate(date);
-        return labelFormat({
+      if (data.type === "single") {
+        const dateTime = convertDateObjectToDate(data?.selectedDate || {});
+        const label = labelFormat({
           date: dateTime,
           option: props?.localeOptions || {
             month: "short",
@@ -199,31 +93,143 @@ export const DatePickerGroupNew: React.FC<DatePickerInputSJProps> = (props) => {
           format: props.formatInputLabel,
           locale: props.locale,
         });
-      });
+        setPickerValue({
+          value: {
+            selected: dateTime?.toISOString() || "",
+            selectedDateObject: data?.selectedDate || {},
+          },
+          label,
+        });
+      }
 
-      const newMultipleDateISO = newMultipleDateObject.map(
-        (date) => convertDateObjectToDate(date)?.toISOString() || "",
-      );
+      if (data.type === "range") {
+        const startDateTime = data.startDate
+          ? convertDateObjectToDate(data.startDate)
+          : undefined;
+        const endDateTime = data.endDate
+          ? convertDateObjectToDate(data.endDate)
+          : undefined;
 
-      const arrangeDateISO = newMultipleDateISO.sort((a, b) => {
-        return a.localeCompare(b);
-      });
+        let label = "";
+        const startOptions: Intl.DateTimeFormatOptions = {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+          ...(props?.localeOptions || {}),
+          ...(props?.alwaysShowRangeStartYear ? {} : { year: undefined }),
+        };
+        const endOptions: Intl.DateTimeFormatOptions = props?.localeOptions || {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        };
+        let startDateFormatted = "";
+        let endDateFormatted = "";
 
-      const arrangeDateObject = newMultipleDateObject.sort((a, b) => {
-        const isoA = convertDateObjectToDate(a)?.toISOString() || "";
-        const isoB = convertDateObjectToDate(b)?.toISOString() || "";
-        return isoA.localeCompare(isoB);
-      });
+        if (startDateTime && endDateTime) {
+          if (startDateTime.getFullYear() === endDateTime.getFullYear()) {
+            if (props.alwaysShowRangeStartYear) return;
+            startOptions.year = undefined;
+          } else {
+            startOptions.year = "numeric";
+          }
+          startDateFormatted = labelFormat({
+            date: startDateTime,
+            option: startOptions,
+            format: props.formatInputLabelRangeStart,
+            locale: props.locale,
+          });
+          endDateFormatted = labelFormat({
+            date: endDateTime,
+            option: endOptions,
+            format: props.formatInputLabelRangeEnd,
+            locale: props.locale,
+          });
+        }
 
-      setPickerValue({
-        value: {
-          multiple: arrangeDateISO,
-          multipleDateObject: arrangeDateObject,
-        },
-        label: inputLabelValue.join(props.multipleDatesSeparator || ", "),
-      });
-    }
-  }, [props, value]);
+        if (startDateTime && !endDateTime) {
+          startDateFormatted = labelFormat({
+            date: startDateTime,
+            option: startOptions,
+            format: props.formatInputLabelRangeStart,
+            locale: props.locale,
+          });
+        }
+
+        if (!startDateTime && endDateTime) {
+          endDateFormatted = labelFormat({
+            date: endDateTime,
+            option: endOptions,
+            format: props.formatInputLabelRangeEnd,
+            locale: props.locale,
+          });
+        }
+        label = `${startDateFormatted} ${
+          props.rangeDatesSeparator || "-"
+        } ${endDateFormatted}`;
+        setPickerValue({
+          value: {
+            start: startDateTime?.toISOString() || "",
+            startDateObject: data?.startDate || {},
+            end: endDateTime?.toISOString() || "",
+            endDateObject: data?.endDate || {},
+          },
+          label,
+        });
+      }
+
+      if (data.type === "multiple") {
+        const savedValue = pickerValue.value;
+        const savedMultipleDateObject = savedValue.multipleDateObject || [];
+        const newMultipleDateObject = data.multipleDates || [];
+
+        if (!pickerValue.label && newMultipleDateObject.length === 0) return;
+        if (
+          savedMultipleDateObject.toString() ===
+            newMultipleDateObject.toString() &&
+          pickerValue.label
+        )
+          return;
+
+        const inputLabelValue = newMultipleDateObject.map((date) => {
+          const dateTime = convertDateObjectToDate(date);
+          return labelFormat({
+            date: dateTime,
+            option: props?.localeOptions || {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            },
+            format: props.formatInputLabel,
+            locale: props.locale,
+          });
+        });
+
+        const newMultipleDateISO = newMultipleDateObject.map(
+          (date) => convertDateObjectToDate(date)?.toISOString() || "",
+        );
+
+        const arrangeDateISO = newMultipleDateISO.sort((a, b) => {
+          return a.localeCompare(b);
+        });
+
+        const arrangeDateObject = newMultipleDateObject.sort((a, b) => {
+          const isoA = convertDateObjectToDate(a)?.toISOString() || "";
+          const isoB = convertDateObjectToDate(b)?.toISOString() || "";
+          return isoA.localeCompare(isoB);
+        });
+
+        setPickerValue({
+          value: {
+            multiple: arrangeDateISO,
+            multipleDateObject: arrangeDateObject,
+          },
+          label: inputLabelValue.join(props.multipleDatesSeparator || ", "),
+        });
+      }
+    },
+    [props, value],
+  );
 
   const handleChildrenClick = () => {
     setIsShown(true);
@@ -243,13 +249,70 @@ export const DatePickerGroupNew: React.FC<DatePickerInputSJProps> = (props) => {
 
   const inputJSX = renderCustomJSX(props.renderInput);
 
+  // Handle initial value setting after component mounts
+  useEffect(() => {
+    if (hasMounted) return;
+    if (!props.value && !value.value) {
+      setMounted(true);
+      return;
+    }
+
+    const valueData = props.value?.value || value.value;
+
+    if (valueData.selected || valueData.selectedDateObject) {
+      const selectedDate = valueData.selected
+        ? convertDateToDateObject(new Date(valueData.selected))
+        : valueData.selectedDateObject;
+
+      handleOnChange({
+        type: "single",
+        selectedDate,
+      });
+    }
+
+    if (valueData.start || valueData.startDateObject) {
+      const startDate = valueData.start
+        ? convertDateToDateObject(new Date(valueData.start))
+        : valueData.startDateObject;
+
+      const endDate = valueData.end
+        ? convertDateToDateObject(new Date(valueData.end))
+        : valueData.endDateObject;
+
+      handleOnChange({
+        type: "range",
+        startDate,
+        endDate,
+      });
+    }
+
+    if (valueData.multiple || valueData.multipleDateObject) {
+      const multipleDateObject = valueData.multipleDateObject?.length
+        ? valueData.multipleDateObject
+        : valueData.multiple
+          ? valueData.multiple.map((date) =>
+              convertDateToDateObject(new Date(date)),
+            )
+          : undefined;
+
+      if (!multipleDateObject?.length) return;
+
+      handleOnChange({
+        type: "multiple",
+        multipleDates: multipleDateObject,
+      });
+    }
+
+    setMounted(true);
+  }, [handleOnChange, hasMounted, props.value, value.value]);
+
   return (
     <Popover
       isShown={isShown}
       setIsShown={setIsShown}
       onClose={() => {
         if (allowedComponents.length) {
-            setAllowedComponents([])
+          setAllowedComponents([]);
         }
         setShowSelectorTwo(false);
         setSelectorTwoProps(defaultSelectorProps);
@@ -278,7 +341,10 @@ export const DatePickerGroupNew: React.FC<DatePickerInputSJProps> = (props) => {
         />
       )}
       portalContainer={props.portalContainer}
-      onClickOutside={(e?: Event, setShown?: React.Dispatch<React.SetStateAction<boolean>>) => {
+      onClickOutside={(
+        e?: Event,
+        setShown?: React.Dispatch<React.SetStateAction<boolean>>,
+      ) => {
         if (
           allowedComponents
             .concat(props.componentsToAllowOutsideClick || [])
@@ -311,9 +377,7 @@ export const DatePickerGroupNew: React.FC<DatePickerInputSJProps> = (props) => {
             data-part="input"
             aria-label={"date picker input"}
             placeholder={props.placeholder}
-            value={
-              props.inputLabel || props.value?.label || value.label
-            }
+            value={props.inputLabel || props.value?.label || value.label}
             data-type={"date-picker-input"}
             {...{ ...props.inputProps, className: undefined }}
             className={cn(
