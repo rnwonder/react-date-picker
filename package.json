@@ -1,6 +1,6 @@
 {
   "name": "@rnwonder/react-date-picker",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -15,6 +15,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./dateMath": {
+      "types": "./dist/dateMath.d.ts",
+      "default": "./dist/dateMath.js"
     },
     "./timePicker": {
       "types": "./dist/timePicker.d.ts",
@@ -58,18 +62,43 @@
   },
   "typesVersions": {
     "*": {
-      "index": ["./dist/index.d.ts"],
-      "timePicker": ["./dist/timePicker.d.ts"],
-      "rnPortal": ["./dist/rnPortal.d.ts"],
-      "monthSelector": ["./dist/monthSelector.d.ts"],
-      "calendarArea": ["./dist/calendarArea.d.ts"],
-      "popover": ["./dist/popover.d.ts"],
-      "yearSelector": ["./dist/yearSelector.d.ts"],
-      "calendar": ["./dist/calendar.d.ts"],
-      "utilities": ["./dist/utilities.d.ts"]
+      "index": [
+        "./dist/index.d.ts"
+      ],
+      "dateMath": [
+        "./dist/dateMath.d.ts"
+      ],
+            "timePicker": [
+        "./dist/timePicker.d.ts"
+      ],
+      "rnPortal": [
+        "./dist/rnPortal.d.ts"
+      ],
+      "monthSelector": [
+        "./dist/monthSelector.d.ts"
+      ],
+      "calendarArea": [
+        "./dist/calendarArea.d.ts"
+      ],
+      "popover": [
+        "./dist/popover.d.ts"
+      ],
+      "yearSelector": [
+        "./dist/yearSelector.d.ts"
+      ],
+      "calendar": [
+        "./dist/calendar.d.ts"
+      ],
+      "utilities": [
+        "./dist/utilities.d.ts"
+      ]
     }
   },
-  "files": ["dist/**", "themes/**", "README.md"],
+  "files": [
+    "dist/**",
+    "themes/**",
+    "README.md"
+  ],
   "scripts": {
     "dev": "vite",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -93,7 +122,7 @@
     }
   },
   "dependencies": {
-    "@rnwonder/simple-datejs": "^1.0.8"
+    "@rnwonder/simple-datejs": "^1.1.1"
   },
   "devDependencies": {
     "@rollup/plugin-terser": "^0.4.4",

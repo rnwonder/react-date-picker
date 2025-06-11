@@ -446,7 +446,7 @@ export const DatePicker = React.forwardRef((props: DatePickerProps, ref) => {
         month,
         year,
         endDay: hoverRangeValue?.end,
-        startDay: hoverRangeValue?.start,
+        startDay,
         disabledDays: props.disabledDays,
         hover: true,
         enabledDays: props.enabledDays,
@@ -464,6 +464,7 @@ export const DatePicker = React.forwardRef((props: DatePickerProps, ref) => {
       props.disabledDays,
       props.enabledDays,
       props.type,
+      startDay,
     ],
   );
 

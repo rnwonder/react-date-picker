@@ -64,7 +64,8 @@ export default defineConfig({
         popover: resolve(__dirname, 'src/popover.ts'),
         yearSelector: resolve(__dirname, 'src/yearSelector.ts'),
         calendar: resolve(__dirname, 'src/calendar.ts'),
-        utilities: resolve(__dirname, 'src/utilities.ts')
+        utilities: resolve(__dirname, 'src/utilities.ts'),
+        dateMath: resolve(__dirname, 'src/dateMath.ts'),
       },
       formats: ['es']
     },

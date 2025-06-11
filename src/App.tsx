@@ -48,6 +48,7 @@ function App() {
       <DatePickerGroup
         weekStartDay={0}
         weekDaysType={"short"}
+        type="range"
         // locale={"zh-u-nu-hanidec"}
         monthSelectorTopLabel={"hhasa"}
         yearSelectorCount={10}

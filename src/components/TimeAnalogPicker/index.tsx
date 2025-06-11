@@ -47,7 +47,6 @@ const TimeAnalogPicker = (props: ITimeAnalogPickerProps) => {
 
   const handleTimeChange = useCallback(
     (time: ITimePickerFormat, meridiem: TimeMeridiem) => {
-      console.log("here");
       const setPickerValue = props.setValue || setValue;
       let label = "";
       let suffix = "";
@@ -181,7 +180,7 @@ const TimeAnalogPicker = (props: ITimeAnalogPickerProps) => {
             placeholder={props.placeholder}
             type="text"
             value={props.inputLabel || props.value?.label || value.label}
-            {...{ ...props.inputProps, class: undefined }}
+            {...{ ...props.inputProps, className: undefined }}
             className={cn(
               `time-picker-input rn-w-full rn-px-1`,
               props.inputProps?.className,

@@ -171,7 +171,7 @@ export const DatePickerDay: React.FC<DatePickerDayProps> = (props) => {
       style={{
         ...(props.dayRangeBetween
           ? {
-              "background-color": props.secondaryColor,
+              "backgroundColor": props.secondaryColor,
             }
           : {}),
         ...(props.weekDaysNameColor && props.header
@@ -288,7 +288,7 @@ export const DatePickerDay: React.FC<DatePickerDayProps> = (props) => {
           style={{
             ...(isSelected && (props.primaryColor || props.primaryTextColor)
               ? {
-                  "background-color": props.primaryColor,
+                  "backgroundColor": props.primaryColor,
                   color: props.primaryTextColor,
                 }
               : {}),
@@ -300,7 +300,7 @@ export const DatePickerDay: React.FC<DatePickerDayProps> = (props) => {
             props.isWeekend
               ? {
                   color: props.weekEndDayTextColor,
-                  "background-color": props.weekEndDayBgColor,
+                  "backgroundColor": props.weekEndDayBgColor,
                 }
               : {}),
             ...(props.textColor && isNotSelected

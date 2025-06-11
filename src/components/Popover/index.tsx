@@ -123,7 +123,6 @@ export const Popover: React.FC<PopoverProps> = (props) => {
       onClose?.();
       return;
     }
-    console.log("Popover opened");
     // onOpen?.();
   }, [isPopoverVisible, onOpen, onClose]);
 
@@ -134,7 +133,6 @@ export const Popover: React.FC<PopoverProps> = (props) => {
       y: positionY,
       x: positionX,
     });
-    console.log("Positioning dropdown with delay shown");
   }, [delayShown, positionDropDown, positionX, positionY]);
 
   // Create portal island on mount
