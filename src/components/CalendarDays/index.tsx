@@ -15,6 +15,7 @@ import { cn, convertFormattedNumberBackToNumber } from "../../utils";
 import { useDaysArray } from "../../hooks/useDaysArray.ts";
 import React from "react";
 import { applyDateRangeProps } from "@rnwonder/simple-datejs/datePicker";
+import { useState } from "react";
 
 export interface CalendarDaysProps extends CalendarDaysClassNamesAndColors {
   month: number;
@@ -42,21 +43,20 @@ export interface CalendarDaysProps extends CalendarDaysClassNamesAndColors {
   weekStartDay?: number;
 
   showSelectorTwo?: boolean;
-
-  dayRowsArray: Array<Array<MonthDaysObject>>;
-  setDayRowsArray: React.Dispatch<
-    React.SetStateAction<Array<Array<MonthDaysObject>>>
-  >;
   locale?: Locale;
 }
 export const CalendarDays: React.FC<CalendarDaysProps> = (props) => {
+  const [dayRowsArray, setDayRowsArray] = useState<
+    Array<Array<MonthDaysObject>>
+  >([]);
+
   useDaysArray({
     month: props.month,
     year: props.year,
     weekStartDay: props.weekStartDay,
     locale: props.locale || "en-US",
-    setDayRowsArray: props.setDayRowsArray,
-    dayRowsArray: props.dayRowsArray,
+    setDayRowsArray,
+    dayRowsArray,
   });
 
   return (
@@ -68,7 +68,7 @@ export const CalendarDays: React.FC<CalendarDaysProps> = (props) => {
         props.datePickerCalendarDaysArea,
       )}
     >
-      {props.dayRowsArray.map((daysRow, index) => (
+      {dayRowsArray.map((daysRow, index) => (
         <DatePickerWeek
           key={index}
           daysRowClass={cn(

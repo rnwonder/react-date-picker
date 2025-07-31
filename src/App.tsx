@@ -22,7 +22,16 @@ function App() {
   return (
     <div className={"rn-flex rn-flex-col"}>
       <p>asasasas {isShown}</p>
-      <DatePickerGroup value={date} setValue={setDate} />
+      <DatePickerGroup
+        value={date}
+        setValue={setDate}
+        onClose={() => {
+          console.log("Closed");
+        }}
+        onOpen={() => {
+          console.log("Opened");
+        }}
+      />
 
       <br />
       <br />
@@ -66,11 +75,10 @@ function App() {
         <Button>Hey hey</Button>
       </Popover>
 
-        <button
+      <button
         className={"rn-w-[10rem] rn-bg-white"}
         id={"portal"}
         onClick={() => setIsShown(true)}
-        
       >
         Hey Click me
       </button>
@@ -88,20 +96,28 @@ function App() {
       <Popover
         content={
           <div
-            className={"rn-start rn-flex rn-flex-col rn-gap-y-4 rn-px-4 rn-py-4"}
+            className={
+              "rn-start rn-flex rn-flex-col rn-gap-y-4 rn-px-4 rn-py-4"
+            }
           >
             <button
-              className={"rn-rounded-md rn-p-1 rn-text-start hover:rn-bg-slate-200"}
+              className={
+                "rn-rounded-md rn-p-1 rn-text-start hover:rn-bg-slate-200"
+              }
             >
               Open
             </button>
             <button
-              className={"rn-rounded-md rn-p-1 rn-text-start hover:rn-bg-slate-200"}
+              className={
+                "rn-rounded-md rn-p-1 rn-text-start hover:rn-bg-slate-200"
+              }
             >
               Copy
             </button>
             <button
-              className={"rn-rounded-md rn-p-1 rn-text-start hover:rn-bg-slate-200"}
+              className={
+                "rn-rounded-md rn-p-1 rn-text-start hover:rn-bg-slate-200"
+              }
             >
               Download
             </button>

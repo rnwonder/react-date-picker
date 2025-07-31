@@ -20,8 +20,13 @@ export interface PopoverProps {
   useRefWidth?: boolean;
   isShown?: boolean;
   setIsShown?: React.Dispatch<React.SetStateAction<boolean>>;
-  onClickOutside?: (e?: Event, isShown?: React.Dispatch<React.SetStateAction<boolean>>) => void;
-  handleChildrenClick?: (setIsShown?: React.Dispatch<React.SetStateAction<boolean>>) => void;
+  onClickOutside?: (
+    e?: Event,
+    isShown?: React.Dispatch<React.SetStateAction<boolean>>,
+  ) => void;
+  handleChildrenClick?: (
+    setIsShown?: React.Dispatch<React.SetStateAction<boolean>>,
+  ) => void;
   className?: string;
   onOpen?: () => void;
   onClose?: () => void;
@@ -29,6 +34,7 @@ export interface PopoverProps {
   width?: React.CSSProperties["width"];
   contentClassName?: string;
   portalContainer?: HTMLElement;
+  disableOpenAnimation?: boolean;
 }
 
 export const Popover: React.FC<PopoverProps> = (props) => {
@@ -36,7 +42,8 @@ export const Popover: React.FC<PopoverProps> = (props) => {
   const [left, setLeft] = useState<string | undefined>();
   const [shown, setShown] = useState(false);
   const [delayShown, setDelayShown] = useState(false);
-  
+  const [hasOpen, setHasOpen] = useState(false);
+
   const popoverRef = useRef<HTMLDivElement>(null);
   const elementRef = useRef<HTMLDivElement>(null);
 
@@ -56,32 +63,32 @@ export const Popover: React.FC<PopoverProps> = (props) => {
     portalContainer,
     useRefWidth,
     content,
-    children
+    children,
   } = props;
 
-  const positionDropDown = useCallback((position?: {
-    x?: IPopOverPositionX;
-    y?: IPopOverPositionY;
-  }) => {
-    if (!position) {
-      position = {
-        x: positionX,
-        y: positionY,
-      };
-    }
-    
-    if (!elementRef.current || !popoverRef.current) return;
+  const positionDropDown = useCallback(
+    (position?: { x?: IPopOverPositionX; y?: IPopOverPositionY }) => {
+      if (!position) {
+        position = {
+          x: positionX,
+          y: positionY,
+        };
+      }
 
-    const { left, top } = smartDropDownPosition({
-      inputRef: () => elementRef.current,
-      dropDownRef: () => popoverRef.current,
-      positionX: position.x,
-      positionY: position.y,
-    });
+      if (!elementRef.current || !popoverRef.current) return;
 
-    setLeft(left);
-    setTop(top);
-  }, [positionX, positionY]);
+      const { left, top } = smartDropDownPosition({
+        inputRef: () => elementRef.current,
+        dropDownRef: () => popoverRef.current,
+        positionX: position.x,
+        positionY: position.y,
+      });
+
+      setLeft(left);
+      setTop(top);
+    },
+    [positionX, positionY],
+  );
 
   const isPopoverVisible = isShown || shown;
 
@@ -119,12 +126,17 @@ export const Popover: React.FC<PopoverProps> = (props) => {
 
   // Handle open/close callbacks and positioning
   useEffect(() => {
-    if (!isPopoverVisible) {
+    if (!isPopoverVisible && hasOpen) {
+      setHasOpen(false);
       onClose?.();
       return;
     }
-    // onOpen?.();
-  }, [isPopoverVisible, onOpen, onClose]);
+
+    if (isPopoverVisible && !hasOpen) {
+      setHasOpen(true);
+      onOpen?.();
+    }
+  }, [isPopoverVisible, hasOpen, onOpen, onClose]);
 
   // Position when delay shown changes
   useEffect(() => {
@@ -217,9 +229,11 @@ export const Popover: React.FC<PopoverProps> = (props) => {
         <div
           className={`
               ${
-                delayShown
-                  ? `rn-translate-y-[0rem] rn-opacity-100`
-                  : `-rn-translate-y-[1rem] rn-opacity-0`
+                !props.disableOpenAnimation
+                  ? delayShown
+                    ? `rn-translate-y-[0rem] rn-opacity-100`
+                    : `-rn-translate-y-[1rem] rn-opacity-0`
+                  : `rn-translate-y-[0rem] rn-opacity-100`
               }
               rn-duration-350 
               rn-delay-50
@@ -237,11 +251,14 @@ export const Popover: React.FC<PopoverProps> = (props) => {
                     ? `scale-100 rn-opacity-100`
                     : `scale-90 rn-opacity-0`
                 }
-                rn-duration-350 
                 rn-transition-opacity
                 rn-ease-in-out
                 motion-reduce:rn-transition-none
             `,
+              {
+                "rn-duration-350 ": !props.disableOpenAnimation,
+                "rn-duration-0 ": props.disableOpenAnimation,
+              },
               contentClassName,
             )}
           >
@@ -252,4 +269,3 @@ export const Popover: React.FC<PopoverProps> = (props) => {
     </div>
   );
 };
-

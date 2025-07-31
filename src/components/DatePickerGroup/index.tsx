@@ -62,6 +62,7 @@ export interface DatePickerInputSJProps
   setPortalRef?: React.Dispatch<React.SetStateAction<HTMLElement | undefined>>;
 
   portalContainer?: HTMLElement;
+  disableOpenAnimation?: boolean;
 }
 
 export const DatePickerGroupNew: React.FC<DatePickerInputSJProps> = (props) => {
@@ -310,6 +311,7 @@ export const DatePickerGroupNew: React.FC<DatePickerInputSJProps> = (props) => {
     <Popover
       isShown={isShown}
       setIsShown={setIsShown}
+      disableOpenAnimation={props.disableOpenAnimation}
       onClose={() => {
         if (allowedComponents.length) {
           setAllowedComponents([]);

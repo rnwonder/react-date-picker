@@ -135,9 +135,6 @@ export const DatePicker = React.forwardRef((props: DatePickerProps, ref) => {
   const [render, setRender] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [hoverRangeValue, setHoverRangeValue] = useState<HoverRangeValue>({});
-  const [dayRowsArray, setDayRowsArray] = useState<
-    Array<Array<MonthDaysObject>>
-  >([]);
 
   useEffect(() => {
     setYear(currentYear);
@@ -693,8 +690,6 @@ export const DatePicker = React.forwardRef((props: DatePickerProps, ref) => {
               hoverRangeValue={hoverRangeValue}
               onHoverDayEnd={onHoverDayEnd}
               showSelectorTwo={props.showSelectorTwo}
-              setDayRowsArray={setDayRowsArray}
-              dayRowsArray={dayRowsArray}
             />
           )}
         </Show>
