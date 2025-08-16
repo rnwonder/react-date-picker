@@ -574,6 +574,17 @@ export const DatePicker = React.forwardRef((props: DatePickerProps, ref) => {
     props.setAllowedComponents,
   );
 
+  if (
+    props.weekStartDay &&
+    (props.weekStartDay < 0 || props.weekStartDay > 6)
+  ) {
+    return (
+      <p className="rn-bg-red-300 rn-p-1 rn-text-red-500">
+        Invalid weekStartDay prop! Must be between 0 and 6.
+      </p>
+    );
+  }
+
   return (
     <div
       className={cn(
